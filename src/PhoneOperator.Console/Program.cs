@@ -22,16 +22,15 @@ namespace PhoneOperator.Console
             while (processedCount < phoneNumbers.Count)
             {
                 var restItemsCount = phoneNumbers.Count - processedCount;
-                processedCount += restItemsCount >= batchSize ? batchSize : restItemsCount;
-                var numbers = phoneNumbers.Skip(processedCount).Take(restItemsCount >= batchSize ? batchSize : restItemsCount);
-                
-                result.AddRange(await serviceClient.RequestInformation(numbers));
                 System.Console.WriteLine($"Processed {processedCount} records, there {restItemsCount} records left to process.");
+                var numbers = phoneNumbers.Skip(processedCount).Take(restItemsCount >= batchSize ? batchSize : restItemsCount);
+                processedCount += restItemsCount >= batchSize ? batchSize : restItemsCount;
+                result.AddRange(await serviceClient.RequestInformation(numbers));
             }
             
             resultSaver.Save(result);
             
-            System.Console.WriteLine("Hello World!");
+            System.Console.WriteLine("All records processed!");
         }
     }
 }
