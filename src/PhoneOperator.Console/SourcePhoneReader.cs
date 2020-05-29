@@ -25,7 +25,8 @@ namespace PhoneOperator.Console
                             line = line.Substring(1);
                         }
 
-                        line = line.Insert(1, "-");
+                        int startIndex = line[0] == '7' ? 2 : 1;
+                        line = line.Insert(startIndex, "-");
                         result.Add(line);
                     }
                 }
