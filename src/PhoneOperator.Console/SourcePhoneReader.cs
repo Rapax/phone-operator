@@ -7,7 +7,7 @@ namespace PhoneOperator.Console
 {
     public class SourcePhoneReader
     {
-        public ICollection<string> LoadNumbers(string filePath)
+        public ICollection<string> LoadNumbers(string filePath, PhoneCodeTransformer phoneCodeTransformer)
         {
             var fi = new FileInfo(filePath);
             var result = new List<string>();
@@ -20,14 +20,8 @@ namespace PhoneOperator.Console
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        if (line[0] == '0')
-                        {
-                            line = line.Substring(1);
-                        }
-
-                        int startIndex = line[0] == '7' ? 2 : 1;
-                        line = line.Insert(startIndex, "-");
-                        result.Add(line);
+                        var options = phoneCodeTransformer.Transform(line);
+                        result.AddRange(options);
                     }
                 }
             }

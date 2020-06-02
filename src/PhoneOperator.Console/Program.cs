@@ -13,8 +13,14 @@ namespace PhoneOperator.Console
             var sourceReader = new SourcePhoneReader();
             var serviceClient = new NumberServiceClient();
             var resultSaver = new ResultSaver();
+            var codeReader = new PhoneCodeReader();
+            var phoneCodeTransformer = new PhoneCodeTransformer();
+
+            var codes = codeReader.Read(args[1]);
+            phoneCodeTransformer.Initialize(codes.OrderBy(x => x));
+
+            var phoneNumbers = sourceReader.LoadNumbers(args[0], phoneCodeTransformer);
             
-            var phoneNumbers = sourceReader.LoadNumbers(args[0]);
             var result = new List<PhoneViewModel>();
 
             int processedCount = 0;
